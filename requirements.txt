@@ -1,0 +1,4 @@
+twitchio==2.5.0
+requests==2.28.2
+Commitizen==2.42.1
+requests==2.28.2
