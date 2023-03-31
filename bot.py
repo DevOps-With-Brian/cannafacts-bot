@@ -1,7 +1,8 @@
 from twitchio.ext import commands
 import os
 import requests
-
+import re
+import time
 
 class Bot(commands.Bot):
     def __init__(self):
@@ -14,6 +15,7 @@ class Bot(commands.Bot):
         )
 
         self.api_url = os.getenv("API_URL")
+
 
         # Set the default help text
         self.default_help = f"Usage: {os.getenv('BOT_PREFIX')} help [command]"
@@ -65,22 +67,41 @@ class Bot(commands.Bot):
         # Set the help text for the strain command
         self.commands["strain"].help = "Get information about a specific strain."
 
+        await ctx.send("Sure just one sec while I look that up...")
+        time.sleep(1)
+
+        # Define a regular expression that matches any non-printable characters or escape sequences
+        non_printable_regex = r'[\x00-\x1f\x7f-\xff\u2028\u2029]'
+
+        # Remove any non-printable characters or escape sequences from the input string
+        sanitized_message = re.sub(non_printable_regex, '', message)
+
         # Make api call to get strain information
-        strain_name = message
+        strain_name = sanitized_message
+
+        # Make api call to get strain information
         url =  self.api_url + "/strains/" + strain_name
-        print(url)
         response = requests.get(url)
         data = response.json()
-        print(data)
 
         if 'detail' in data:
-            print("Made it to line 77... {}".format(data['detail']))
             # Respond to the cannafacts strain command
             await ctx.send(data['detail'])
         elif 'description' in data:
-            print("Made it to line 81... {}".format(data['description']))
+            print("Made it to line 88... {}".format(data['description']))
+            
+            # Define a regular expression that matches any non-printable characters or unsupported characters
+            # This pattern will match any characters that are not alphanumeric, whitespace, or in the following list: !#$%&()*+,-./:;<=>?@[\]^_`{|}~
+            unsupported_regex = r'[^\w\s!#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~]'
+
+            # Sanitize the input string by removing any unsupported characters
+            sanitized_text = re.sub(unsupported_regex, '', data['description'])
+
+            if len(sanitized_text) > 500:
+                sanitized_text = sanitized_text[:497] + '...'
+            
             # Respond to the cannafacts strain command
-            await ctx.send(data['description'])
+            await ctx.send(sanitized_text)
         else:
             print("Not sure what hits here...")
 
