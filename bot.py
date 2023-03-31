@@ -11,11 +11,11 @@ class Bot(commands.Bot):
             token=os.getenv("TOKEN"),
             client_id=os.getenv("CLIENT_ID"),
             prefix=os.getenv("BOT_PREFIX"),
-            initial_channels=[os.getenv("CHANNEL")],
+            initial_channels=os.getenv("CHANNEL").split(",")
         )
 
         self.api_url = os.getenv("API_URL")
-
+        print(os.getenv("CHANNEL").split(","))
 
         # Set the default help text
         self.default_help = f"Usage: {os.getenv('BOT_PREFIX')} help [command]"
