@@ -99,8 +99,8 @@ class Bot(commands.Bot):
             # Sanitize the input string by removing any unsupported characters
             sanitized_text = re.sub(unsupported_regex, '', data['description'])
 
-            if len(sanitized_text) > 500:
-                sanitized_text = sanitized_text[:497] + '...'
+            if len(sanitized_text) > 200:
+                sanitized_text = sanitized_text[:200] + '...'
                 split_string = sanitized_text.split(".")
 
                 # Use list slicing to extract the substring after the second period
