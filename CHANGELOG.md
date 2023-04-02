@@ -1,3 +1,9 @@
+## 0.3.1 (2023-04-02)
+
+### Fix
+
+- **bot**: updating bot descriptions to have a limiter to not overwhelm chat
+
 ## 0.3.0 (2023-03-31)
 
 ### Feat
