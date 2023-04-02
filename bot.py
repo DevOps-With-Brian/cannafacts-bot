@@ -213,7 +213,7 @@ class Bot(commands.Bot):
     async def event_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
             # If a command is not found, send help message to chat
-            await ctx.send("You can run !cannafacts help to get a list of commands.")
+            await ctx.send("You can run {} help to get a list of commands.".format(os.getenv("BOT_PREFIX")))
 
 
 bot = Bot()
