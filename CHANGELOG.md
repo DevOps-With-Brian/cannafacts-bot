@@ -1,3 +1,9 @@
+## 0.4.0 (2023-04-02)
+
+### Feat
+
+- **api**: making new changes based on api updates
+
 ## 0.3.2 (2023-04-02)
 
 ### Fix
