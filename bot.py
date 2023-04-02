@@ -67,6 +67,7 @@ class Bot(commands.Bot):
         # Set the help text for the strain command
         self.commands["strain"].help = "Get information about a specific strain."
 
+
         await ctx.send("Sure just one sec while I look that up...")
         time.sleep(1)
 
@@ -79,6 +80,8 @@ class Bot(commands.Bot):
         # Make api call to get strain information
         strain_name = sanitized_message
 
+        print("Currently being asked about strain: {}".format(strain_name))
+
         # Make api call to get strain information
         url =  self.api_url + "/strains/" + strain_name
         response = requests.get(url)
@@ -88,7 +91,6 @@ class Bot(commands.Bot):
             # Respond to the cannafacts strain command
             await ctx.send(data['detail'])
         elif 'description' in data:
-            print("Made it to line 88... {}".format(data['description']))
             
             # Define a regular expression that matches any non-printable characters or unsupported characters
             # This pattern will match any characters that are not alphanumeric, whitespace, or in the following list: !#$%&()*+,-./:;<=>?@[\]^_`{|}~
@@ -99,9 +101,16 @@ class Bot(commands.Bot):
 
             if len(sanitized_text) > 500:
                 sanitized_text = sanitized_text[:497] + '...'
+                split_string = sanitized_text.split(".")
+
+                # Use list slicing to extract the substring after the second period
+                result = ".".join(split_string[0:2])
+
+                if len(result) > 200:
+                    result = result[:197] + '...'
             
             # Respond to the cannafacts strain command
-            await ctx.send(sanitized_text)
+            await ctx.send(result)
         else:
             print("Not sure what hits here...")
 
@@ -114,13 +123,11 @@ class Bot(commands.Bot):
         # Make api call to get strain information
         strain_name = message
         url =  self.api_url + "/strains/" + strain_name
-        print(url)
         response = requests.get(url)
         data = response.json()
         print(data)
 
         if 'detail' in data:
-            print("Made it to line 77... {}".format(data['detail']))
             # Respond to the cannafacts strain_type command
             await ctx.send(data['detail'])
         elif 'strain_type' in data:
