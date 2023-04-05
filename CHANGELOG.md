@@ -1,3 +1,9 @@
+## 0.5.1 (2023-04-05)
+
+### Fix
+
+- **flavors**: fixing the response on the flavors based on a typo
+
 ## 0.5.0 (2023-04-02)
 
 ### Feat
