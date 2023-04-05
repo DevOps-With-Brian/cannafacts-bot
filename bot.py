@@ -176,7 +176,7 @@ class Bot(commands.Bot):
             # Respond to the cannafacts flavors command
             print(data["flavors"])
             await ctx.send(
-                "Strain: {0} has the follow flavors {1}".format(
+                "Strain: {0} has the following flavors {1}".format(
                     strain_name, data["flavors"]
                 )
             )
